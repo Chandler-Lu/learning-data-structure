@@ -1,4 +1,5 @@
 # learning-data-structure
 ## Schedule
 ### Huihui
-- [x] 1. 绪论知识点（2019.07.05）
+- [x] Class 1: 绪论知识点（2019.07.05）
+- [x] Class 2: 绪论知识点———算法和时空复杂度（2019.07.08）
