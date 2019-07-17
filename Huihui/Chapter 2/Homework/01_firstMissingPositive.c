@@ -1,3 +1,11 @@
+/*
+ * @Description: Huihui-Chapter 2-Homework-01
+ * @version: 1.0
+ * @Author: Chandler Lu
+ * @Date: 2019-07-16 15:53:35
+ * @LastEditTime: 2019-07-17 09:12:49
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -30,6 +38,11 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
+/**
+ * @description: Find First Missing Positive
+ * @param {*arr, elemNum}
+ * @return: (i + 1) or (elemNum + 1)
+ */
 int firstMissingPositive(int *arr, int elemNum) {
   for (int i = 0; i < elemNum; i++) {
     while (arr[i] > 0 && arr[i] <= elemNum && arr[i] != arr[arr[i] - 1]) {
@@ -41,7 +54,7 @@ int firstMissingPositive(int *arr, int elemNum) {
       return (i + 1);
     }
   }
-  return elemNum + 1;
+  return (elemNum + 1);
 }
 
 void swap(int *a, int *b) {
