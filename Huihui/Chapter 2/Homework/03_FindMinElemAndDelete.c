@@ -1,9 +1,9 @@
 /*
  * @Description: Huihui-Chapter 2-Homework-03
- * @version: 1.0
+ * @version: 1.1
  * @Author: Chandler Lu
  * @Date: 2019-07-17 18:29:53
- * @LastEditTime: 2019-07-17 23:13:49
+ * @LastEditTime: 2019-07-17 23:50:22
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -73,12 +73,12 @@ LinkList FindMinNode(LinkList linklist) {
   LNode *minNode_point = currentNode;
   min = currentNode->data;
   while (1) {
-    if (currentNode->next == NULL) {
-      break;
-    }
     if (currentNode->data < min) {
       min = currentNode->data;
       minNode_point = currentNode;
+    }
+    if (currentNode->next == NULL) {
+      break;
     }
     currentNode = currentNode->next;
   }
