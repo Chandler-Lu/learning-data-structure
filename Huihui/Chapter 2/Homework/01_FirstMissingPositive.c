@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int firstMissingPositive(int *, int);
+int FirstMissingPositive(int *, int);
 void swap(int *, int *);
 
 int main(int argc, char *argv[]) {
@@ -29,11 +29,11 @@ int main(int argc, char *argv[]) {
 
   // Call function & Output
   printf("Test 1 - FirstMissingPositive: %d\n",
-         firstMissingPositive(arr_1, elemNum_1));
+         FirstMissingPositive(arr_1, elemNum_1));
   printf("Test 2 - FirstMissingPositive: %d\n",
-         firstMissingPositive(arr_2, elemNum_2));
+         FirstMissingPositive(arr_2, elemNum_2));
   printf("Test 3 - FirstMissingPositive: %d\n",
-         firstMissingPositive(arr_3, elemNum_3));
+         FirstMissingPositive(arr_3, elemNum_3));
 
   return 0;
 }
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
  * @param {*arr, elemNum}
  * @return: (i + 1) or (elemNum + 1)
  */
-int firstMissingPositive(int *arr, int elemNum) {
+int FirstMissingPositive(int *arr, int elemNum) {
   for (int i = 0; i < elemNum; i++) {
     while (arr[i] > 0 && arr[i] <= elemNum && arr[i] != arr[arr[i] - 1]) {
       swap(&arr[i], &arr[arr[i] - 1]);
