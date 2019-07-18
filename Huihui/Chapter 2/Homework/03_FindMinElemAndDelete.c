@@ -1,10 +1,11 @@
 /*
  * @Description: Huihui-Chapter 2-Homework-03
- * @version: 1.1
+ * @version: 1.2
  * @Author: Chandler Lu
  * @Date: 2019-07-17 18:29:53
- * @LastEditTime: 2019-07-17 23:50:22
+ * @LastEditTime: 2019-07-18 14:16:08
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -16,7 +17,7 @@ typedef struct LNode {
 } LNode, *LinkList;
 
 LinkList CreateLinkList(LinkList, int);
-void FindAndDeleteMinNode(LinkList);
+void DeleteMinNode(LinkList);
 void LinkListTraverse(LinkList);
 void DestoryLinkList(LinkList);
 
@@ -27,7 +28,7 @@ int main(int argc, char *argv[]) {
   LNode *linklist = CreateLinkList(linklist, n);
   printf("Before Delete: ");
   LinkListTraverse(linklist);
-  FindAndDeleteMinNode(linklist);
+  DeleteMinNode(linklist);
   printf("After Delete: ");
   LinkListTraverse(linklist);
   DestoryLinkList(linklist);
@@ -65,27 +66,22 @@ LinkList CreateLinkList(LinkList linklist, int n) {
  * @return: A Point to the Minimum Node
  */
 LinkList FindMinNode(LinkList linklist) {
-  int min;
   if (linklist->next == NULL) {
     return NULL;
   }
   LNode *currentNode = linklist->next;
   LNode *minNode_point = currentNode;
-  min = currentNode->data;
-  while (1) {
-    if (currentNode->data < min) {
-      min = currentNode->data;
+  minNode_point->data = currentNode->data;
+  while (currentNode != NULL) {
+    if (currentNode->data < minNode_point->data) {
       minNode_point = currentNode;
-    }
-    if (currentNode->next == NULL) {
-      break;
     }
     currentNode = currentNode->next;
   }
   return minNode_point;
 }
 
-void FindAndDeleteMinNode(LinkList linklist) {
+void DeleteMinNode(LinkList linklist) {
   LinkList minNode_point = FindMinNode(linklist);
   LNode *currentNode = linklist;
   while (currentNode->next != minNode_point) {
