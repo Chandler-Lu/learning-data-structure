@@ -1,9 +1,9 @@
 /*
  * @Description: KMP algorithm - Get Next Array
- * @version: 1.0
+ * @version: 1.1
  * @Author: Chandler Lu
  * @Date: 2019-07-27 11:28:13
- * @LastEditTime: 2019-07-27 11:31:21
+ * @LastEditTime: 2019-08-06 11:47:23
  */
 
 #include <stdio.h>
@@ -13,12 +13,13 @@
 void GetNext(char *, int *);
 
 int main(int argc, char *argv[]) {
-  char p[] = {'a', 'b', 'a', 'b', 'a', 'b', 'c', 'a'};
-  int *next = (int *)malloc(sizeof(int) * (strlen(p) - 1));
+  char p[] = "abababca";
+  int *next = (int *)malloc(sizeof(int) * strlen(p));
   GetNext(p, next);
-  for (int i = 0; i < strlen(p) -1; i++) {
+  printf("Next[%lu]: ", strlen(p));
+  for (int i = 0; i < strlen(p); i++) {
     printf("%d", next[i]);
-    if (i != strlen(p) - 2) {
+    if (i != strlen(p) - 1) {
       printf(" ");
     }
   }
