@@ -1,7 +1,4 @@
-# 七夕快乐
-![](https://raw.githubusercontent.com/Chandler-Lu/picbed/master/HappyMagpie.png)
-
-# Chapter 5
+# Chapter 5【七夕快乐（2019.08.07）】
 
 # 树
 

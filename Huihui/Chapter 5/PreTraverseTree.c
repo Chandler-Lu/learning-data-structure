@@ -1,3 +1,11 @@
+/*
+ * @Description: 二叉树非递归先序遍历
+ * @version: 1.1
+ * @Author: Chandler Lu
+ * @Date: 2019-08-23 00:03:56
+ * @LastEditTime: 2019-08-23 13:59:27
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -37,11 +45,17 @@ int StackPush(SqStack *s, TreeNode *node) {
   return TRUE;
 }
 
-int StackPop(SqStack *s, TreeNode *p) {
+/**
+ * TODO: 掌握此处的参数传递
+ * @description: 出栈
+ * @param {SqStack *s, TreeNode **p}
+ * @return: bool
+ */
+int StackPop(SqStack *s, TreeNode **p) {
   if (s->top == -1) {
     return FALSE;
   }
-  *p = s->data[s->top--];
+  *p = &(s->data[s->top--]);
   return TRUE;
 }
 
@@ -84,7 +98,7 @@ void PreTraverseTree(TreeNode *root) {
       printf("%c ", p->data);
       p = p->lchild;
     } else {
-      StackPop(s, p);
+      StackPop(s, &p);
       p = p->rchild;
     }
   }
