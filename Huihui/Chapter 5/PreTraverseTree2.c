@@ -3,15 +3,15 @@
  * @version: 1.1
  * @Author: Chandler Lu
  * @Date: 2019-08-23 00:03:56
- * @LastEditTime: 2019-08-23 13:59:27
+ * @LastEditTime: 2019-08-26 10:29:54
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #define MAXSIZE 15
-#define TRUE 1
-#define FALSE 0
+#define OK 1
+#define ERROR 0
 
 typedef struct TreeNode {
   char data;
@@ -37,26 +37,25 @@ SqStack *InitStack() {
   return s;
 }
 
-int StackPush(SqStack *s, TreeNode *node) {
+int StackPush(SqStack *s, TreeNode *currentRoot) {
   if (s->top == MAXSIZE - 1) {
-    return FALSE;
+    return ERROR;
   }
   s->data[++s->top] = *node;
-  return TRUE;
+  return OK;
 }
 
 /**
- * TODO: 掌握此处的参数传递
  * @description: 出栈
  * @param {SqStack *s, TreeNode **p}
  * @return: bool
  */
-int StackPop(SqStack *s, TreeNode **p) {
+int StackPop(SqStack *s, TreeNode **pointToCurrentRoot) {
   if (s->top == -1) {
-    return FALSE;
+    return ERROR;
   }
-  *p = &(s->data[s->top--]);
-  return TRUE;
+  *pointToCurrentRoot = &(s->data[s->top--]);
+  return OK;
 }
 
 int StackEmpty(SqStack *s) {
@@ -67,11 +66,11 @@ int StackEmpty(SqStack *s) {
 }
 
 TreeNode *InitTree(char data) {
-  TreeNode *treeNode = (TreeNode *)malloc(sizeof(TreeNode));
-  treeNode->data = data;
-  treeNode->lchild = NULL;
-  treeNode->rchild = NULL;
-  return treeNode;
+  TreeNode *node = (TreeNode *)malloc(sizeof(TreeNode));
+  node->data = data;
+  node->lchild = NULL;
+  node->rchild = NULL;
+  return node;
 }
 
 TreeNode *BuildTree() {
