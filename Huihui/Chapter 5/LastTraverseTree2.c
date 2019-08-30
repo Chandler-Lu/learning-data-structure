@@ -1,3 +1,10 @@
+/*
+ * @Description: 二叉树非递归后序遍历
+ * @version: 1.0
+ * @Author: Chandler Lu
+ * @Date: 2019-08-30 10:59:37
+ * @LastEditTime: 2019-08-30 17:52:59
+ */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,7 +18,7 @@ typedef struct TreeNode {
 } TreeNode;
 
 typedef struct SqStack {
-  TreeNode data[MAXSIZE];
+  TreeNode *data[MAXSIZE]; // 指针数组
   int top;
 } SqStack;
 
@@ -19,6 +26,15 @@ SqStack *InitStack() {
   SqStack *s = (SqStack *)malloc(sizeof(SqStack));
   s->top = -1;
   return s;
+}
+
+TreeNode *BuildTree();
+void LastTraverseTree(TreeNode *);
+
+int main() {
+  TreeNode *treeRoot = BuildTree();
+  LastTraverseTree(treeRoot);
+  return 0;
 }
 
 int StackEmpty(SqStack *s) {
@@ -32,7 +48,7 @@ int StackPush(SqStack *s, TreeNode *currentRoot) {
   if (s->top == MAXSIZE - 1) {
     return ERROR;
   }
-  s->data[++s->top] = *currentRoot;
+  s->data[++s->top] = currentRoot;
   return OK;
 }
 
@@ -45,7 +61,7 @@ int StackPop(SqStack *s) {
 }
 
 void GetStackTop(SqStack *s, TreeNode **pointToCurrentNode) {
-  *pointToCurrentNode = &(s->data[s->top]);
+  *pointToCurrentNode = s->data[s->top];
 }
 
 TreeNode *InitTree(char data) {
@@ -76,22 +92,12 @@ void LastTraverseTree(TreeNode *root) {
     return;
   }
   StackPush(s, root);
-  
-  // 死循环，暂时手动控制
-  int a = 10;
-  while (a--) {
+  while (!StackEmpty(s)) {
     cur = NULL;
     GetStackTop(s, &cur);
-    
-    // 调试
-    if(pre != NULL) {
-      printf("%c", cur->data);
-      printf("%c ", pre->data);
-    }
-    
     if ((cur->lchild == NULL && cur->rchild == NULL) ||
         (pre != NULL && (cur->lchild == pre || cur->rchild == pre))) {
-//      printf("%c ", cur->data);
+      printf("%c ", cur->data);
       pre = cur;
       StackPop(s);
     } else {
@@ -101,13 +107,7 @@ void LastTraverseTree(TreeNode *root) {
       if (cur->lchild != NULL) {
         StackPush(s, cur->lchild);
       }
-    }
-  }
+    } // end else
+  }   // end while
   free(s);
-}
-
-int main() {
-  TreeNode *treeRoot = BuildTree();
-  LastTraverseTree(treeRoot);
-  return 0;
 }
