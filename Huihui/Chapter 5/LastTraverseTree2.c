@@ -1,11 +1,3 @@
-/*
- * @Description: 二叉树非递归先序遍历
- * @version: 1.2
- * @Author: Chandler Lu
- * @Date: 2019-08-23 00:03:56
- * @LastEditTime: 2019-08-26 10:29:54
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -23,18 +15,17 @@ typedef struct SqStack {
   int top;
 } SqStack;
 
-TreeNode *BuildTree();
-void PreTraverseTree(TreeNode *);
-
-int main(int argc, char *argv[]) {
-  TreeNode *treeRoot = BuildTree();
-  PreTraverseTree(treeRoot);
-}
-
 SqStack *InitStack() {
   SqStack *s = (SqStack *)malloc(sizeof(SqStack));
   s->top = -1;
   return s;
+}
+
+int StackEmpty(SqStack *s) {
+  if (s->top == -1) {
+    return 1;
+  }
+  return 0;
 }
 
 int StackPush(SqStack *s, TreeNode *currentRoot) {
@@ -45,24 +36,16 @@ int StackPush(SqStack *s, TreeNode *currentRoot) {
   return OK;
 }
 
-/**
- * @description: 出栈
- * @param {SqStack *s, TreeNode **p}
- * @return: bool
- */
-int StackPop(SqStack *s, TreeNode **pointToCurrentRoot) {
+int StackPop(SqStack *s) {
   if (s->top == -1) {
     return ERROR;
   }
-  *pointToCurrentRoot = &(s->data[s->top--]);
+  s->top--;
   return OK;
 }
 
-int StackEmpty(SqStack *s) {
-  if (s->top == -1) {
-    return 1;
-  }
-  return 0;
+void GetStackTop(SqStack *s, TreeNode **pointToCurrentNode) {
+  *pointToCurrentNode = &(s->data[s->top]);
 }
 
 TreeNode *InitTree(char data) {
@@ -85,21 +68,46 @@ TreeNode *BuildTree() {
   return treeRoot;
 }
 
-void PreTraverseTree(TreeNode *root) {
-  SqStack *s = InitStack();
-  TreeNode *p = root;
-  if (p == NULL) {
+void LastTraverseTree(TreeNode *root) {
+  SqStack *s;
+  TreeNode *cur = NULL, *pre = NULL;
+  s = InitStack();
+  if (root == NULL) {
     return;
   }
-  while (p || !StackEmpty(s)) {
-    if (p) {
-      StackPush(s, p);
-      printf("%c ", p->data);
-      p = p->lchild;
+  StackPush(s, root);
+  
+  // 死循环，暂时手动控制
+  int a = 10;
+  while (a--) {
+    cur = NULL;
+    GetStackTop(s, &cur);
+    
+    // 调试
+    if(pre != NULL) {
+      printf("%c", cur->data);
+      printf("%c ", pre->data);
+    }
+    
+    if ((cur->lchild == NULL && cur->rchild == NULL) ||
+        (pre != NULL && (cur->lchild == pre || cur->rchild == pre))) {
+//      printf("%c ", cur->data);
+      pre = cur;
+      StackPop(s);
     } else {
-      StackPop(s, &p);
-      p = p->rchild;
+      if (cur->rchild != NULL) {
+        StackPush(s, cur->rchild);
+      }
+      if (cur->lchild != NULL) {
+        StackPush(s, cur->lchild);
+      }
     }
   }
   free(s);
+}
+
+int main() {
+  TreeNode *treeRoot = BuildTree();
+  LastTraverseTree(treeRoot);
+  return 0;
 }
