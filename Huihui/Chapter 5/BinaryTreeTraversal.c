@@ -3,7 +3,7 @@
  * @version: 1.0
  * @Author: Chandler Lu
  * @Date: 2019-09-01 17:51:14
- * @LastEditTime: 2019-09-01 19:28:41
+ * @LastEditTime: 2019-09-01 22:01:46
  */
 
 #include <stdio.h>
@@ -13,7 +13,7 @@
 #define OK 1
 #define ERROR 0
 
-#define ELEMTYPE char
+typedef char ELEMTYPE;
 
 /* Declare Struction */
 typedef struct TreeNode {
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
   printf("\n\tNon-Recursion: \t");
   PostOrderTraversalTree_Recursion(treeRoot);
   printf("\n");
-  
+
   // Free
   DestroyTree(treeRoot);
 }
@@ -206,7 +206,7 @@ void PostOrderTraversalTree_Recursion(TreeNode *node) {
   }
 }
 
-void DestroyTree(TreeNode *node){
+void DestroyTree(TreeNode *node) {
   if (node->lchild != NULL) {
     DestroyTree(node->lchild);
   }
