@@ -3,7 +3,7 @@
  * @version: 1.0
  * @Author: Chandler Lu
  * @Date: 2019-09-01 11:07:40
- * @LastEditTime: 2019-09-01 12:11:07
+ * @LastEditTime: 2019-09-01 19:30:21
  */
 
 #include <stdio.h>
@@ -107,4 +107,5 @@ void PostOrderTraversalTree(TreeNode *root) {
       }
     }
   }
+  free(s);
 }
