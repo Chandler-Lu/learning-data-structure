@@ -1,9 +1,9 @@
 /*
- * @Description: 二叉树非递归后序遍历（王道）
+ * @Description: 二叉树非递归中序遍历
  * @version: 1.0
  * @Author: Chandler Lu
- * @Date: 2019-09-01 11:07:40
- * @LastEditTime: 2019-09-01 19:30:21
+ * @Date: 2019-08-26 09:58:07
+ * @LastEditTime: 2019-09-04 20:12:02
  */
 
 #include <stdio.h>
@@ -19,16 +19,16 @@ typedef struct TreeNode {
 } TreeNode;
 
 typedef struct SqStack {
-  TreeNode *data[MAXSIZE];
+  TreeNode data[MAXSIZE];
   int top;
 } SqStack;
 
 TreeNode *BuildTree();
-void PostOrderTraversalTree(TreeNode *);
+void InOrderTraverseTree(TreeNode *);
 
 int main(int argc, char *argv[]) {
-  TreeNode *treeRoot = BuildTree();
-  PostOrderTraversalTree(treeRoot);
+  TreeNode *root = BuildTree();
+  InOrderTraverseTree(root);
   return 0;
 }
 
@@ -38,22 +38,6 @@ SqStack *InitStack() {
   return s;
 }
 
-int StackPush(SqStack *s, TreeNode *currentRoot) {
-  if (s->top == MAXSIZE - 1) {
-    return ERROR;
-  }
-  s->data[++s->top] = currentRoot;
-  return OK;
-}
-
-int StackPop(SqStack *s, TreeNode **pointToCurrentNode) {
-  if (s->top == -1) {
-    return ERROR;
-  }
-  *pointToCurrentNode = s->data[s->top--];
-  return OK;
-}
-
 int StackEmpty(SqStack *s) {
   if (s->top == -1) {
     return 1;
@@ -61,8 +45,20 @@ int StackEmpty(SqStack *s) {
   return 0;
 }
 
-void GetStackTop(SqStack *s, TreeNode **pointToCurrentNode) {
-  *pointToCurrentNode = s->data[s->top];
+int StackPush(SqStack *s, TreeNode *currentRoot) {
+  if (s->top == MAXSIZE - 1) {
+    return ERROR;
+  }
+  s->data[++s->top] = *currentRoot;
+  return OK;
+}
+
+int StackPop(SqStack *s, TreeNode **pointToCurrentRoot) {
+  if (s->top == -1) {
+    return ERROR;
+  }
+  *pointToCurrentRoot = &(s->data[s->top--]);
+  return OK;
 }
 
 TreeNode *InitTree(char data) {
@@ -85,26 +81,20 @@ TreeNode *BuildTree() {
   return treeRoot;
 }
 
-void PostOrderTraversalTree(TreeNode *root) {
+void InOrderTraverseTree(TreeNode *root) {
   SqStack *s = InitStack();
-  TreeNode *pre = NULL;
-  TreeNode *cur = root;
-  while (cur || !StackEmpty(s)) {
-    if (cur) {
-      StackPush(s, cur);
-      cur = cur->lchild;
+  TreeNode *p = root;
+  if (p == NULL) {
+    return;
+  }
+  while (p != NULL || !StackEmpty(s)) {
+    if (p) {
+      StackPush(s, p);
+      p = p->lchild;
     } else {
-      GetStackTop(s, &cur);
-      if (cur->rchild && cur->rchild != pre) {
-        cur = cur->rchild;
-        StackPush(s, cur);
-        cur = cur->lchild;
-      } else {
-        StackPop(s, &cur);
-        printf("%c ", cur->data);
-        pre = cur;
-        cur = NULL;
-      }
+      StackPop(s, &p);
+      printf("%c ", p->data);
+      p = p->rchild;
     }
   }
   free(s);

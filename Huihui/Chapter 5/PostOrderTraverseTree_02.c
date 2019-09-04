@@ -1,9 +1,9 @@
 /*
- * @Description: 二叉树非递归先序遍历
- * @version: 1.2
+ * @Description: 二叉树非递归后序遍历（灰灰）
+ * @version: 1.0
  * @Author: Chandler Lu
- * @Date: 2019-08-23 00:03:56
- * @LastEditTime: 2019-09-01 12:12:36
+ * @Date: 2019-08-30 10:59:37
+ * @LastEditTime: 2019-09-04 20:13:01
  */
 
 #include <stdio.h>
@@ -19,16 +19,17 @@ typedef struct TreeNode {
 } TreeNode;
 
 typedef struct SqStack {
-  TreeNode data[MAXSIZE];
+  TreeNode *data[MAXSIZE]; // 指针数组
   int top;
 } SqStack;
 
 TreeNode *BuildTree();
-void PreOrderTraversalTree(TreeNode *);
+void PostOrderTraverseTree(TreeNode *);
 
-int main(int argc, char *argv[]) {
+int main() {
   TreeNode *treeRoot = BuildTree();
-  PreOrderTraversalTree(treeRoot);
+  PostOrderTraverseTree(treeRoot);
+  return 0;
 }
 
 SqStack *InitStack() {
@@ -37,32 +38,31 @@ SqStack *InitStack() {
   return s;
 }
 
-int StackPush(SqStack *s, TreeNode *currentRoot) {
-  if (s->top == MAXSIZE - 1) {
-    return ERROR;
-  }
-  s->data[++s->top] = *currentRoot;
-  return OK;
-}
-
-/**
- * @description: 出栈
- * @param {SqStack *s, TreeNode **p}
- * @return: bool
- */
-int StackPop(SqStack *s, TreeNode **pointToCurrentRoot) {
-  if (s->top == -1) {
-    return ERROR;
-  }
-  *pointToCurrentRoot = &(s->data[s->top--]);
-  return OK;
-}
-
 int StackEmpty(SqStack *s) {
   if (s->top == -1) {
     return 1;
   }
   return 0;
+}
+
+int StackPush(SqStack *s, TreeNode *currentRoot) {
+  if (s->top == MAXSIZE - 1) {
+    return ERROR;
+  }
+  s->data[++s->top] = currentRoot;
+  return OK;
+}
+
+int StackPop(SqStack *s) {
+  if (s->top == -1) {
+    return ERROR;
+  }
+  s->top--;
+  return OK;
+}
+
+void GetStackTop(SqStack *s, TreeNode **p) {
+  *p = s->data[s->top];
 }
 
 TreeNode *InitTree(char data) {
@@ -85,21 +85,30 @@ TreeNode *BuildTree() {
   return treeRoot;
 }
 
-void PreOrderTraversalTree(TreeNode *root) {
-  SqStack *s = InitStack();
-  TreeNode *p = root;
-  if (p == NULL) {
+void PostOrderTraverseTree(TreeNode *root) {
+  SqStack *s;
+  TreeNode *cur = NULL, *pre = NULL;
+  s = InitStack();
+  if (root == NULL) {
     return;
   }
-  while (p || !StackEmpty(s)) {
-    if (p) {
-      StackPush(s, p);
-      printf("%c ", p->data);
-      p = p->lchild;
+  StackPush(s, root);
+  while (!StackEmpty(s)) {
+    cur = NULL;
+    GetStackTop(s, &cur);
+    if ((cur->lchild == NULL && cur->rchild == NULL) ||
+        (pre != NULL && (cur->lchild == pre || cur->rchild == pre))) {
+      printf("%c ", cur->data);
+      pre = cur;
+      StackPop(s);
     } else {
-      StackPop(s, &p);
-      p = p->rchild;
-    }
-  }
+      if (cur->rchild != NULL) {
+        StackPush(s, cur->rchild);
+      }
+      if (cur->lchild != NULL) {
+        StackPush(s, cur->lchild);
+      }
+    } // end else
+  }   // end while
   free(s);
 }

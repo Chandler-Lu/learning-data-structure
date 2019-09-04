@@ -1,9 +1,9 @@
 /*
- * @Description: 二叉树非递归中序遍历
- * @version: 1.0
+ * @Description: 二叉树非递归先序遍历
+ * @version: 1.2
  * @Author: Chandler Lu
- * @Date: 2019-08-26 09:58:07
- * @LastEditTime: 2019-09-01 12:12:37
+ * @Date: 2019-08-23 00:03:56
+ * @LastEditTime: 2019-09-04 20:12:28
  */
 
 #include <stdio.h>
@@ -24,25 +24,17 @@ typedef struct SqStack {
 } SqStack;
 
 TreeNode *BuildTree();
-void InOrderTraversalTree(TreeNode *);
+void PreOrderTraverseTree(TreeNode *);
 
 int main(int argc, char *argv[]) {
-  TreeNode *root = BuildTree();
-  InOrderTraversalTree(root);
-  return 0;
+  TreeNode *treeRoot = BuildTree();
+  PreOrderTraverseTree(treeRoot);
 }
 
 SqStack *InitStack() {
   SqStack *s = (SqStack *)malloc(sizeof(SqStack));
   s->top = -1;
   return s;
-}
-
-int StackEmpty(SqStack *s) {
-  if (s->top == -1) {
-    return 1;
-  }
-  return 0;
 }
 
 int StackPush(SqStack *s, TreeNode *currentRoot) {
@@ -53,12 +45,24 @@ int StackPush(SqStack *s, TreeNode *currentRoot) {
   return OK;
 }
 
+/**
+ * @description: 出栈
+ * @param {SqStack *s, TreeNode **p}
+ * @return: bool
+ */
 int StackPop(SqStack *s, TreeNode **pointToCurrentRoot) {
   if (s->top == -1) {
     return ERROR;
   }
   *pointToCurrentRoot = &(s->data[s->top--]);
   return OK;
+}
+
+int StackEmpty(SqStack *s) {
+  if (s->top == -1) {
+    return 1;
+  }
+  return 0;
 }
 
 TreeNode *InitTree(char data) {
@@ -81,19 +85,19 @@ TreeNode *BuildTree() {
   return treeRoot;
 }
 
-void InOrderTraversalTree(TreeNode *root) {
+void PreOrderTraverseTree(TreeNode *root) {
   SqStack *s = InitStack();
   TreeNode *p = root;
   if (p == NULL) {
     return;
   }
-  while (p != NULL || !StackEmpty(s)) {
+  while (p || !StackEmpty(s)) {
     if (p) {
       StackPush(s, p);
+      printf("%c ", p->data);
       p = p->lchild;
     } else {
       StackPop(s, &p);
-      printf("%c ", p->data);
       p = p->rchild;
     }
   }

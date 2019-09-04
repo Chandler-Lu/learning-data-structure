@@ -3,7 +3,7 @@
  * @version: 1.0
  * @Author: Chandler Lu
  * @Date: 2019-09-04 17:25:01
- * @LastEditTime: 2019-09-04 17:30:05
+ * @LastEditTime: 2019-09-04 20:22:17
  */
 
 #include <stdio.h>
@@ -27,7 +27,7 @@ int Judge(int[], int);
 
 int main(int argc, char *argv[]) {
   int a[] = {3, 4, 5, 1, 2};
-  printf("%d", Judge(a, 5));
+  Judge(a, 5) ? printf("TRUE") : printf("FALSE");
 }
 
 SqStack *InitStack() {
@@ -74,5 +74,6 @@ int Judge(int a[], int n) {
       }
     }
   }
+  free(s);
   return TRUE;
 }

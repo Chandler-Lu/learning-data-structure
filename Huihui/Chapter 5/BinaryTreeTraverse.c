@@ -3,7 +3,7 @@
  * @version: 1.0
  * @Author: Chandler Lu
  * @Date: 2019-09-01 17:51:14
- * @LastEditTime: 2019-09-01 22:01:46
+ * @LastEditTime: 2019-09-04 20:16:53
  */
 
 #include <stdio.h>
@@ -28,12 +28,12 @@ typedef struct SqStack {
 
 /* Declare Function */
 TreeNode *BuildTree();
-void PreOrderTraversalTree(TreeNode *);
-void PreOrderTraversalTree_Recursion(TreeNode *);
-void InOrderTraversalTree(TreeNode *);
-void InOrderTraversalTree_Recursion(TreeNode *);
-void PostOrderTraversalTree(TreeNode *);
-void PostOrderTraversalTree_Recursion(TreeNode *);
+void PreOrderTraverseTree(TreeNode *);
+void PreOrderTraverseTree_Recursion(TreeNode *);
+void InOrderTraverseTree(TreeNode *);
+void InOrderTraverseTree_Recursion(TreeNode *);
+void PostOrderTraverseTree(TreeNode *);
+void PostOrderTraverseTree_Recursion(TreeNode *);
 void DestroyTree(TreeNode *);
 
 /* Main */
@@ -43,25 +43,25 @@ int main(int argc, char *argv[]) {
   // Post Order
   printf("Post_Order:\n");
   printf("\tRecursion: \t");
-  PreOrderTraversalTree(treeRoot);
+  PreOrderTraverseTree(treeRoot);
   printf("\n\tNon-Recursion: \t");
-  PreOrderTraversalTree_Recursion(treeRoot);
+  PreOrderTraverseTree_Recursion(treeRoot);
   printf("\n");
 
   // In Order
   printf("In_Order:\n");
   printf("\tRecursion: \t");
-  InOrderTraversalTree(treeRoot);
+  InOrderTraverseTree(treeRoot);
   printf("\n\tNon-Recursion: \t");
-  InOrderTraversalTree_Recursion(treeRoot);
+  InOrderTraverseTree_Recursion(treeRoot);
   printf("\n");
 
   // Pre Order
   printf("Pre_Order:\n");
   printf("\tRecursion: \t");
-  PostOrderTraversalTree(treeRoot);
+  PostOrderTraverseTree(treeRoot);
   printf("\n\tNon-Recursion: \t");
-  PostOrderTraversalTree_Recursion(treeRoot);
+  PostOrderTraverseTree_Recursion(treeRoot);
   printf("\n");
 
   // Free
@@ -92,16 +92,16 @@ int StackPush(SqStack *s, TreeNode *currentRoot) {
   return 1;
 }
 
-int StackPop(SqStack *s, TreeNode **pointToCurrentNode) {
+int StackPop(SqStack *s, TreeNode **p) {
   if (s->top == -1) {
     return 0;
   }
-  *pointToCurrentNode = s->data[s->top--];
+  *p = s->data[s->top--];
   return 1;
 }
 
-void GetStackTop(SqStack *s, TreeNode **pointToCurrentNode) {
-  *pointToCurrentNode = s->data[s->top];
+void GetStackTop(SqStack *s, TreeNode **p) {
+  *p = s->data[s->top];
 }
 
 TreeNode *InitTree(ELEMTYPE data) {
@@ -125,7 +125,7 @@ TreeNode *BuildTree() {
   return treeRoot;
 }
 
-void PreOrderTraversalTree(TreeNode *root) {
+void PreOrderTraverseTree(TreeNode *root) {
   SqStack *s = InitStack();
   TreeNode *cur = root;
   while (cur || !StackEmpty(s)) {
@@ -141,15 +141,15 @@ void PreOrderTraversalTree(TreeNode *root) {
   free(s);
 }
 
-void PreOrderTraversalTree_Recursion(TreeNode *node) {
+void PreOrderTraverseTree_Recursion(TreeNode *node) {
   if (node != NULL) {
     printf("%c ", node->data);
-    PreOrderTraversalTree_Recursion(node->lchild);
-    PreOrderTraversalTree_Recursion(node->rchild);
+    PreOrderTraverseTree_Recursion(node->lchild);
+    PreOrderTraverseTree_Recursion(node->rchild);
   }
 }
 
-void InOrderTraversalTree(TreeNode *root) {
+void InOrderTraverseTree(TreeNode *root) {
   SqStack *s = InitStack();
   TreeNode *cur = root;
   while (cur || !StackEmpty(s)) {
@@ -165,15 +165,15 @@ void InOrderTraversalTree(TreeNode *root) {
   free(s);
 }
 
-void InOrderTraversalTree_Recursion(TreeNode *node) {
+void InOrderTraverseTree_Recursion(TreeNode *node) {
   if (node != NULL) {
-    InOrderTraversalTree_Recursion(node->lchild);
+    InOrderTraverseTree_Recursion(node->lchild);
     printf("%c ", node->data);
-    InOrderTraversalTree_Recursion(node->rchild);
+    InOrderTraverseTree_Recursion(node->rchild);
   }
 }
 
-void PostOrderTraversalTree(TreeNode *root) {
+void PostOrderTraverseTree(TreeNode *root) {
   SqStack *s = InitStack();
   TreeNode *cur = root;
   TreeNode *pre = NULL;
@@ -198,10 +198,10 @@ void PostOrderTraversalTree(TreeNode *root) {
   free(s);
 }
 
-void PostOrderTraversalTree_Recursion(TreeNode *node) {
+void PostOrderTraverseTree_Recursion(TreeNode *node) {
   if (node != NULL) {
-    PostOrderTraversalTree_Recursion(node->lchild);
-    PostOrderTraversalTree_Recursion(node->rchild);
+    PostOrderTraverseTree_Recursion(node->lchild);
+    PostOrderTraverseTree_Recursion(node->rchild);
     printf("%c ", node->data);
   }
 }

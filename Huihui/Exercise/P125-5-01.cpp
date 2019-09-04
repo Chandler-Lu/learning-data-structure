@@ -3,7 +3,7 @@
  * @version: 1.0
  * @Author: Chandler Lu
  * @Date: 2019-09-03 23:03:33
- * @LastEditTime: 2019-09-04 00:31:54
+ * @LastEditTime: 2019-09-04 20:29:46
  */
 
 #include <stdio.h>
@@ -26,6 +26,7 @@ LinkList InitList();
 void ListStructure(LinkList &, LinkList &);
 int Merge(LinkList &, LinkList &, LinkList &);
 void ListTraverse(LinkList &);
+void Destroy(LinkList &, LinkList &, LinkList &);
 
 int main(int argc, char *argv[]) {
   LNode *La = InitList();
@@ -129,5 +130,23 @@ void ListTraverse(LinkList &L) {
       printf(" ");
     }
     p = p->next;
+  }
+}
+
+void Destroy(LinkList &La, LinkList &Lb, LinkList &Lc) {
+  while (La) {
+    LNode *p = La;
+    La = La->next;
+    free(p);
+  }
+  while (Lb) {
+    LNode *p = Lb;
+    Lb = Lb->next;
+    free(p);
+  }
+  while (Lc) {
+    LNode *p = Lc;
+    Lc = Lc->next;
+    free(p);
   }
 }
