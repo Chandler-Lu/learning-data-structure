@@ -1,4 +1,4 @@
-# Chapter 1
+# Chapter 1：概论
 
 ## Class 1
 
