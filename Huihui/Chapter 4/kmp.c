@@ -3,17 +3,19 @@
  * @version: 1.0
  * @Author: Chandler Lu
  * @Date: 2019-10-06 22:59:43
- * @LastEditTime: 2019-10-07 00:18:58
+ * @LastEditTime: 2019-10-07 00:49:16
  */
 
 #include <stdio.h>
 #include <string.h>
 
+#define SIZE 20
+
 int kmp(char *, char *);
 
 int main(int argc, char *argv[]) {
-  char S[20] = "ABABBAAABABABBA"; // 原串
-  char T[20] = "ABABABB";         // 模式串
+  char S[SIZE] = "ABABBAAABABABBA"; // 原串
+  char T[SIZE] = "ABABABB";         // 模式串
   int loc = kmp(S, T);
   if (loc == -1) {
     printf("无匹配");
@@ -41,7 +43,7 @@ void getNext(int *next, char *T) {
 int kmp(char *S, char *T) {
   int i = 0;
   int j = 0;
-  int next[20] = {0};
+  int next[SIZE] = {0};
   getNext(next, T);
 
   // 注意：strlen 返回无符号整型，当 j = -1 时将导致异常，故强制转换
